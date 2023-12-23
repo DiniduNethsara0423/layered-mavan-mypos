@@ -15,12 +15,12 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
-import model.CustomerModel;
-import model.ItemModel;
-import model.OrderModel;
-import model.impl.CustomerModelImpl;
-import model.impl.ItemModelImpl;
-import model.impl.OrderModelImpl;
+import dao.CustomerModel;
+import dao.ItemModel;
+import dao.OrderModel;
+import dao.impl.CustomerModelImpl;
+import dao.impl.ItemModelImpl;
+import dao.impl.OrderModelImpl;
 
 import java.sql.SQLException;
 import java.time.LocalDateTime;
