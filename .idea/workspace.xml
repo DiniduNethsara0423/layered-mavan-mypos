@@ -4,12 +4,25 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b1554204-cf22-4172-9b6b-198443bde722" name="Changes" comment="Initializing dao">
-      <change afterPath="$PROJECT_DIR$/src/main/java/entity/Customer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/entity/Item.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/entity/OrderDetail.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/entity/Orders.java" afterDir="false" />
+    <list default="true" id="b1554204-cf22-4172-9b6b-198443bde722" name="Changes" comment="Initializing entity classes">
+      <change afterPath="$PROJECT_DIR$/src/main/java/dao/CrudDao.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dao/DaoFactory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dao/SuperDao.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dao/util/BoType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dao/util/CrudUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dao/util/DaoType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dao/util/HibernateUtil.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/CustomerFormController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/CustomerFormController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/PlaceOrderFormController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/PlaceOrderFormController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dao/CustomerModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/custom/CustomerDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dao/ItemModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/custom/ItemDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dao/OrderDetailsModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/custom/OrderDetailsDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dao/OrderModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/custom/OrderDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dao/impl/CustomerModelImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/custom/impl/CustomerDaoImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dao/impl/ItemModelImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/custom/impl/ItemDaoImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dao/impl/OrderDetailsModelImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/custom/impl/OrderDetailsDaoImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dao/impl/OrderModelImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/custom/impl/OrderDaoImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,6 +32,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Interface" />
+        <option value="Enum" />
         <option value="Class" />
       </list>
     </option>
@@ -50,6 +65,7 @@
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.0",
     "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "reference.settings.project.maven.repository.indices",
     "vue.rearranger.settings.migration": "true"
   },
   "keyToStringList": {
@@ -106,7 +122,7 @@
       <updated>1703336752755</updated>
       <workItem from="1703336753743" duration="1327000" />
       <workItem from="1703342766326" duration="3229000" />
-      <workItem from="1703351409646" duration="1848000" />
+      <workItem from="1703351409646" duration="5490000" />
     </task>
     <task id="LOCAL-00001" summary="test 1">
       <option name="closed" value="true" />
@@ -140,7 +156,15 @@
       <option name="project" value="LOCAL" />
       <updated>1703353283317</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Initializing entity classes">
+      <option name="closed" value="true" />
+      <created>1703353862551</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1703353862551</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -149,6 +173,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="test 1" />
     <MESSAGE value="Initializing dao" />
-    <option name="LAST_COMMIT_MESSAGE" value="Initializing dao" />
+    <MESSAGE value="Initializing entity classes" />
+    <option name="LAST_COMMIT_MESSAGE" value="Initializing entity classes" />
   </component>
 </project>
