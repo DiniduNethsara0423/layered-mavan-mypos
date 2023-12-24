@@ -1,7 +1,12 @@
 package controller;
 
+import bo.BoFactory;
+import bo.custom.CustomerBo;
+import bo.custom.ItemBo;
+import bo.custom.OrderBo;
 import com.jfoenix.controls.*;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
+import dao.util.BoType;
 import dto.CustomerDto;
 import dto.ItemDto;
 import dto.OrderDetailsDto;
@@ -10,18 +15,16 @@ import dto.tm.OrderTm;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
-import dao.custom.CustomerDao;
-import dao.custom.ItemDao;
-import dao.custom.OrderDao;
-import dao.custom.impl.CustomerDaoImpl;
-import dao.custom.impl.ItemDaoImpl;
-import dao.custom.impl.OrderDaoImpl;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -43,28 +46,28 @@ public class PlaceOrderFormController {
     public TreeTableColumn colOption;
     public Label lblTotal;
     public Label lblOrderId;
+    public JFXButton backBtn;
 
     private List<CustomerDto> customers;
     private List<ItemDto> items;
     private double tot = 0;
 
-    private CustomerDao customerDao = new CustomerDaoImpl();
-    private ItemDao itemDao = new ItemDaoImpl();
-    private OrderDao orderDao = new OrderDaoImpl();
-
+    private CustomerBo customerBo = BoFactory.getInstance().getBo(BoType.CUSTOMER);
+    ItemBo itemBo= BoFactory.getInstance().getBo(BoType.ITEM);
+    private OrderBo orderBo=BoFactory.getInstance().getBo(BoType.ORDER);
     private ObservableList<OrderTm> tmList = FXCollections.observableArrayList();
 
-    public void initialize(){
+    public void initialize() throws SQLException, ClassNotFoundException {
         colCode.setCellValueFactory(new TreeItemPropertyValueFactory<>("code"));
         colDesc.setCellValueFactory(new TreeItemPropertyValueFactory<>("desc"));
         colQty.setCellValueFactory(new TreeItemPropertyValueFactory<>("qty"));
         colAmount.setCellValueFactory(new TreeItemPropertyValueFactory<>("amount"));
         colOption.setCellValueFactory(new TreeItemPropertyValueFactory<>("btn"));
 
-        generateId();
-
+        setOrderID();
         loadCustomerIds();
         loadItemCodes();
+
 
         cmbCustId.getSelectionModel().selectedItemProperty().addListener((observableValue, oldValue, id) -> {
             for (CustomerDto dto:customers) {
@@ -84,9 +87,14 @@ public class PlaceOrderFormController {
         });
     }
 
+    private void setOrderID() throws SQLException, ClassNotFoundException {
+        lblOrderId.setText(orderBo.generateID());
+    }
+
+
     private void loadItemCodes() {
         try {
-            items = itemDao.allItems();
+            items = itemBo.allItems();
             ObservableList list = FXCollections.observableArrayList();
             for (ItemDto dto:items) {
                 list.add(dto.getCode());
@@ -99,91 +107,66 @@ public class PlaceOrderFormController {
         }
     }
 
-    private void loadCustomerIds() {
-        try {
-            customers = customerDao.allCustomers();
-            ObservableList list = FXCollections.observableArrayList();
-            for (CustomerDto dto:customers) {
-                list.add(dto.getId());
-            }
-            cmbCustId.setItems(list);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+    private void loadCustomerIds() throws SQLException, ClassNotFoundException {
+        customers=new ArrayList<>();
+        customers.addAll(customerBo.allCustomers());
+
+        ObservableList list = FXCollections.observableArrayList();
+        for (CustomerDto dto:customers) {
+            list.add(dto.getId());
         }
+        cmbCustId.setItems(list);
     }
 
-    public void backButtonOnAction(ActionEvent actionEvent) {
-
+    public void backButtonOnAction(ActionEvent actionEvent) throws IOException {
+        Stage stage= (Stage)backBtn.getScene().getWindow();
+        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/view/DashBoardForm.fxml"))));
     }
 
     public void addToCartButtonOnAction(ActionEvent actionEvent) {
-        try {
-            double amount = itemDao.getItem(cmbItemCode.getValue().toString()).getUnitPrice() * Integer.parseInt(txtQty.getText());
-            JFXButton btn = new JFXButton("Delete");
+        //            double amount = itemModel.getItem(cmbItemCode.getValue().toString()).getUnitPrice() * Integer.parseInt(txtQty.getText());
+        JFXButton btn = new JFXButton("Delete");
 
-            OrderTm tm = new OrderTm(
-                    cmbItemCode.getValue().toString(),
-                    txtDesc.getText(),
-                    Integer.parseInt(txtQty.getText()),
-                    amount,
-                    btn
-            );
+        OrderTm tm = new OrderTm(
+                cmbItemCode.getValue().toString(),
+                txtDesc.getText(),
+                Integer.parseInt(txtQty.getText()),
+                Integer.parseInt(txtQty.getText())*Double.parseDouble(txtUnitPrice.getText()),
+                btn
+        );
 
-            btn.setOnAction(actionEvent1 -> {
-                tmList.remove(tm);
-                tot -= tm.getAmount();
-                tblOrder.refresh();
-                lblTotal.setText(String.format("%.2f",tot));
-            });
-
-            boolean isExist = false;
-
-            for (OrderTm order:tmList) {
-                if (order.getCode().equals(tm.getCode())){
-                    order.setQty(order.getQty()+tm.getQty());
-                    order.setAmount(order.getAmount()+tm.getAmount());
-                    isExist = true;
-                    tot+=tm.getAmount();
-                }
-            }
-
-            if (!isExist){
-                tmList.add(tm);
-                tot+= tm.getAmount();
-            }
-
-            TreeItem<OrderTm> treeObject = new RecursiveTreeItem<OrderTm>(tmList, RecursiveTreeObject::getChildren);
-            tblOrder.setRoot(treeObject);
-            tblOrder.setShowRoot(false);
-
+        btn.setOnAction(actionEvent1 -> {
+            tmList.remove(tm);
+            tot -= tm.getAmount();
+            tblOrder.refresh();
             lblTotal.setText(String.format("%.2f",tot));
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+        });
 
-    }
+        boolean isExist = false;
 
-    public void generateId(){
-        try {
-            OrderDto dto = orderDao.lastOrder();
-            if (dto!=null){
-                String id = dto.getOrderId();
-                int num = Integer.parseInt(id.split("[D]")[1]);
-                num++;
-                lblOrderId.setText(String.format("D%03d",num));
-            }else{
-                lblOrderId.setText("D001");
+        for (OrderTm order:tmList) {
+            if (order.getCode().equals(tm.getCode())){
+                order.setQty(order.getQty()+tm.getQty());
+                order.setAmount(order.getAmount()+tm.getAmount());
+                isExist = true;
+                tot+=tm.getAmount();
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
         }
+
+        if (!isExist){
+            tmList.add(tm);
+            tot+= tm.getAmount();
+        }
+
+        TreeItem<OrderTm> treeObject = new RecursiveTreeItem<OrderTm>(tmList, RecursiveTreeObject::getChildren);
+        tblOrder.setRoot(treeObject);
+        tblOrder.setShowRoot(false);
+
+        lblTotal.setText(String.format("%.2f",tot));
+
     }
+
+
 
     public void placeOrderButtonOnAction(ActionEvent actionEvent) {
         List<OrderDetailsDto> list = new ArrayList<>();
@@ -198,7 +181,7 @@ public class PlaceOrderFormController {
 //        if (!tmList.isEmpty()){
             boolean isSaved = false;
             try {
-                isSaved = orderDao.saveOrder(new OrderDto(
+                isSaved = orderBo.saveOrder(new OrderDto(
                         lblOrderId.getText(),
                         LocalDateTime.now().format(DateTimeFormatter.ofPattern("YYYY-MM-dd")),
                         cmbCustId.getValue().toString(),
@@ -218,4 +201,5 @@ public class PlaceOrderFormController {
 
 //        }
     }
+
 }

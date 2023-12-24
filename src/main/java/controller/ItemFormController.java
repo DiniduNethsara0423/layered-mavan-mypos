@@ -1,10 +1,13 @@
 package controller;
 
+import bo.BoFactory;
+import bo.custom.ItemBo;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXTreeTableView;
 import com.jfoenix.controls.RecursiveTreeItem;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
+import dao.util.BoType;
 import db.DBConnection;
 import dto.ItemDto;
 import dto.tm.ItemTm;
@@ -64,6 +67,7 @@ public class ItemFormController {
 
     @FXML
     private JFXTextField txtUnitPrice;
+    private ItemBo itemBo= BoFactory.getInstance().getBo(BoType.ITEM);
 
     public void initialize(){
         colCode.setCellValueFactory(new TreeItemPropertyValueFactory<>("code"));
@@ -72,6 +76,24 @@ public class ItemFormController {
         colQty.setCellValueFactory(new TreeItemPropertyValueFactory<>("qty"));
         colOption.setCellValueFactory(new TreeItemPropertyValueFactory<>("btn"));
         loadItemTable();
+
+//        tblItem.getSelectionModel().selectedItemProperty().addListener((observableValue, oldValue, newValue) -> {
+//            setData(newValue);
+//        });
+
+
+        tblItem.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 1 && (!tblItem.getSelectionModel().isEmpty())) {
+                //Get the item that was clicked
+                TreeItem<ItemTm> item = tblItem.getSelectionModel().getSelectedItem();
+                //Set the text field to the item's value
+                txtCode.setText(item.getValue().getCode());
+                txtDesc.setText(item.getValue().getDesc());
+                txtUnitPrice.setText(item.getValue().getUnitPrice()+"");
+                txtQty.setText(item.getValue().getQty()+"");
+
+            }
+        });//
 
         txtSearch.textProperty().addListener(new ChangeListener<String>() {
             @Override
@@ -86,6 +108,16 @@ public class ItemFormController {
             }
         });
     }
+
+//    private void setData(TreeItem<ItemTm> newValue) {
+//        if (newValue != null) {
+//            txtCode.setEditable(false);
+//            txtId.setText(newValue.getId());
+//            txtName.setText(newValue.getName());
+//            txtAddress.setText(newValue.getAddress());
+//            txtSalary.setText(String.valueOf(newValue.getSalary()));
+//        }
+//    }
 
     private void loadItemTable() {
         ObservableList<ItemTm> tmList = FXCollections.observableArrayList();
@@ -128,7 +160,7 @@ public class ItemFormController {
         try {
             PreparedStatement pstm = DBConnection.getInstance().getConnection().prepareStatement(sql);
             pstm.setString(1,code);
-            int result = pstm.executeUpdate(sql);
+            int result = pstm.executeUpdate();
             if (result>0){
                 new Alert(Alert.AlertType.INFORMATION,"Item Deleted!").show();
                 loadItemTable();
@@ -182,8 +214,12 @@ public class ItemFormController {
     }
 
     @FXML
-    void updateButtonOnAction(ActionEvent event) {
-
+    void updateButtonOnAction(ActionEvent event) throws SQLException, ClassNotFoundException {
+        ItemDto itemDto=new ItemDto(txtCode.getText(),txtDesc.getText(),Double.parseDouble(txtUnitPrice.getText()),Integer.parseInt(txtQty.getText()));
+        boolean isUpdated = itemBo.updateItem(itemDto);
+        if (isUpdated){
+            new Alert(Alert.AlertType.INFORMATION,"Update Success").show();
+        }
     }
 
 }

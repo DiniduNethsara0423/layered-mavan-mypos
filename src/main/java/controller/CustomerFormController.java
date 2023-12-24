@@ -1,5 +1,9 @@
 package controller;
 
+import bo.BoFactory;
+import bo.custom.CustomerBo;
+import dao.util.BoType;
+import db.DBConnection;
 import dto.CustomerDto;
 import dto.tm.CustomerTm;
 import javafx.collections.FXCollections;
@@ -11,8 +15,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import dao.custom.CustomerDao;
-import dao.custom.impl.CustomerDaoImpl;
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import net.sf.jasperreports.view.JasperViewer;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -52,7 +58,7 @@ public class CustomerFormController {
     @FXML
     private TextField txtSalary;
 
-    private CustomerDao customerDao = new CustomerDaoImpl();
+    private CustomerBo customerBo = BoFactory.getInstance().getBo(BoType.CUSTOMER);
 
     public void initialize(){
         colId.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -81,7 +87,7 @@ public class CustomerFormController {
         ObservableList<CustomerTm> tmList = FXCollections.observableArrayList();
 
         try {
-            List<CustomerDto> dtoList = customerDao.allCustomers();
+            List<CustomerDto> dtoList = customerBo.allCustomers();
 
             for (CustomerDto dto:dtoList) {
                 Button btn = new Button("Delete");
@@ -95,7 +101,13 @@ public class CustomerFormController {
                 );
 
                 btn.setOnAction(actionEvent -> {
-                    deleteCustomer(c.getId());
+                    try {
+                        deleteCustomer(c.getId());
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    } catch (ClassNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
                 });
 
                 tmList.add(c);
@@ -109,19 +121,15 @@ public class CustomerFormController {
         }
     }
 
-    private void deleteCustomer(String id) {
-        try {
-            boolean isDeleted = customerDao.deleteCustomer(id);
-            if (isDeleted){
-                new Alert(Alert.AlertType.INFORMATION,"Customer Deleted!").show();
-                loadCustomerTable();
-            }else{
-                new Alert(Alert.AlertType.ERROR,"Something went wrong!").show();
-            }
-
-        } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
+    private void deleteCustomer(String id) throws SQLException, ClassNotFoundException {
+        boolean isDeleted = customerBo.deleteCustomer(id);
+        if (isDeleted){
+            new Alert(Alert.AlertType.INFORMATION,"Customer Deleted!").show();
+            loadCustomerTable();
+        }else{
+            new Alert(Alert.AlertType.ERROR,"Something went wrong!").show();
         }
+
     }
 
     @FXML
@@ -143,7 +151,7 @@ public class CustomerFormController {
     @FXML
     void saveButtonOnAction(ActionEvent event) {
         try {
-            boolean isSaved = customerDao.saveCustomer(new CustomerDto(txtId.getText(),
+            boolean isSaved = customerBo.saveCustomer(new CustomerDto(txtId.getText(),
                     txtName.getText(),
                     txtAddress.getText(),
                     Double.parseDouble(txtSalary.getText())
@@ -164,7 +172,7 @@ public class CustomerFormController {
     @FXML
     void updateButtonOnAction(ActionEvent event) {
         try {
-            boolean isUpdated = customerDao.updateCustomer(new CustomerDto(txtId.getText(),
+            boolean isUpdated = customerBo.updateCustomer(new CustomerDto(txtId.getText(),
                     txtName.getText(),
                     txtAddress.getText(),
                     Double.parseDouble(txtSalary.getText())
@@ -186,6 +194,17 @@ public class CustomerFormController {
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void reportButtonOnAction(ActionEvent actionEvent){
+        try {
+            JasperDesign design = JRXmlLoader.load("src/main/resources/reports/rep.jrxml");
+            JasperReport jasperReport = JasperCompileManager.compileReport(design);
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, null, DBConnection.getInstance().getConnection());
+            JasperViewer.viewReport(jasperPrint,false);
+        } catch (JRException | ClassNotFoundException | SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 }

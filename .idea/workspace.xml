@@ -4,25 +4,24 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b1554204-cf22-4172-9b6b-198443bde722" name="Changes" comment="Initializing entity classes">
-      <change afterPath="$PROJECT_DIR$/src/main/java/dao/CrudDao.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dao/DaoFactory.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dao/SuperDao.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dao/util/BoType.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dao/util/CrudUtil.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dao/util/DaoType.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dao/util/HibernateUtil.java" afterDir="false" />
+    <list default="true" id="b1554204-cf22-4172-9b6b-198443bde722" name="Changes" comment="dao">
+      <change afterPath="$PROJECT_DIR$/src/main/java/bo/BoFactory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/bo/SuperBo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/bo/custom/CustomerBo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/bo/custom/ItemBo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/bo/custom/OrderBo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/bo/custom/impl/CustomerBoImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/bo/custom/impl/ItemBoImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/bo/custom/impl/OrderBoImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/controller/CustomerFormController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/CustomerFormController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/ItemFormController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/ItemFormController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/controller/PlaceOrderFormController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/PlaceOrderFormController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dao/CustomerModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/custom/CustomerDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dao/ItemModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/custom/ItemDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dao/OrderDetailsModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/custom/OrderDetailsDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dao/OrderModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/custom/OrderDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dao/impl/CustomerModelImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/custom/impl/CustomerDaoImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dao/impl/ItemModelImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/custom/impl/ItemDaoImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dao/impl/OrderDetailsModelImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/custom/impl/OrderDetailsDaoImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dao/impl/OrderModelImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/custom/impl/OrderDaoImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/db/DBConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/db/DBConnection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/entity/Customer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/entity/Customer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/entity/Item.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/entity/Item.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/entity/OrderDetail.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/entity/OrderDetail.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/entity/Orders.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/entity/Orders.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,7 +56,7 @@
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
     "git-widget-placeholder": "main",
-    "last_opened_file_path": "D:/ICEM/recordings/java fx/layered project/pos-layered-archi-master/pos-layered-archi-master",
+    "last_opened_file_path": "D:/ICEM/recordings/java fx/layered project/layered-my-pos/src/main/java",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -76,9 +75,9 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\ICEM\recordings\java fx\layered project\layered-my-pos\src\main\java" />
       <recent name="D:\ICEM\recordings\java fx\layered project\layered-my-pos" />
       <recent name="D:\ICEM\recordings\java fx\layered project\layered-my-pos\src\main\resources" />
-      <recent name="D:\ICEM\recordings\java fx\layered project\layered-my-pos\src\main\java" />
     </key>
   </component>
   <component name="RunManager">
@@ -122,7 +121,7 @@
       <updated>1703336752755</updated>
       <workItem from="1703336753743" duration="1327000" />
       <workItem from="1703342766326" duration="3229000" />
-      <workItem from="1703351409646" duration="5490000" />
+      <workItem from="1703351409646" duration="6690000" />
     </task>
     <task id="LOCAL-00001" summary="test 1">
       <option name="closed" value="true" />
@@ -164,7 +163,15 @@
       <option name="project" value="LOCAL" />
       <updated>1703353862551</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="dao">
+      <option name="closed" value="true" />
+      <created>1703358867721</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1703358867721</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -174,6 +181,7 @@
     <MESSAGE value="test 1" />
     <MESSAGE value="Initializing dao" />
     <MESSAGE value="Initializing entity classes" />
-    <option name="LAST_COMMIT_MESSAGE" value="Initializing entity classes" />
+    <MESSAGE value="dao" />
+    <option name="LAST_COMMIT_MESSAGE" value="dao" />
   </component>
 </project>
